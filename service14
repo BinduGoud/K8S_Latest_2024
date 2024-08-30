@@ -1,0 +1,27 @@
+vi svc1.yam
+kubectl apply -f svc1.yaml --dry-run
+kubectl apply -f svc1.yam
+ kubectl get svc
+ kubectl get ep
+ kubectl get pods -o wide
+ kubectl get ep
+
+  kubectl create svc amazon --help
+  kubectl create svc nodeport amazon --tcp=80:80 --dry-run -o yaml > svc2.yaml
+   kubectl describe svc amazon
+    kubectl get ep amazon
+    kubectl get nodes -o wide
+    kubectl get svc
+
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+namespace/kubernetes-dashboard created
+
+created k8s UI dashboard , which failed but recreated in R16 or R15
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+namespace/kubernetes-dashboard created
+kubectl get all -n kubernetes-dashboard
+kubectl get secret -n kubernetes-dashboard
+kubectl get sa -n kubernetes-dashboard
+kubectl describe sa kubernetes-dashboard -n kubernetes-dashboard
+
+
