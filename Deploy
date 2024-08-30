@@ -1,0 +1,59 @@
+REC13 -- 
+vi flipkart.yaml
+ kubectl apply -f  flipkart.yaml
+kubectl get pods
+cat flipkart.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flipkart
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: flipkart
+  replicas: 4
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: flipkart
+      name: flipkart
+    spec:
+      containers:
+      - name: flipkart
+        image: nginx:latest
+
+
+ kubectl get deploy
+kubectl get deploy,rs,po
+kubectl set image --help
+kubectl set image deployment/flipkart flipkart=nginx:stable-perl
+kubectl get pods
+kubectl rollout history deploy/flipkart
+kubectl get rs
+
+kubectl set image deployment/flipkart flipkart=nginx:perl --record
+kubectl rollout history deploy/flipkart
+
+ kubectl set image deployment/flipkart flipkart=nginx:mainline-perl
+kubectl annotate deploy/flipkart kubernetes.io/change-cause="image version is mainline-perl"
+
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+4         kubectl set image deployment/flipkart flipkart=nginx:perl --record=true
+5         image version is mainline-perl
+
+kubectl rollout history deploy/flipkart --revision=3
+kubectl describe pods flipkart-5854c4d959-c5nvf | grep -i image
+
+ kubectl rollout undo deploy/flipkart --help
+kubectl rollout undo deploy/flipkart  --to-revision=1
+kubectl get pods
+
