@@ -1,0 +1,50 @@
+ kubectl create deploy paytm --image=nginx --replicas=2 --dry-run -o yaml > paytmdeploy.yaml
+
+
+ k api-resources --help
+k api-resources
+
+ -- this tells the objects that are under control of namesapces
+kubectl api-resources --namespaced=false
+kubectl api-resources --namespaced=true
+
+NAMESPACES -
+kubectl create ns dev
+namespace/dev created
+
+kubectl get ns
+kgp -n dev
+kcp new1 --image=nginx -n dev
+
+DEFAULTING Namespaces --
+kubectl config set-context $(kubectl config current-context) --namespace=default
+kubectl config set-context $(kubectl config current-context) --namespace=dev
+kubectl config --help
+
+
+shortcut commands --
+
+alias k='kubectl'
+alias ka='k apply -f'
+alias kc='k create'
+alias kcd='k create deploy'
+alias kcp='k run'
+alias kd='k describe'
+alias kdf='kubectl delete pods --grace-period=0 --force'
+alias kdp='kubectl describe pods'
+alias kg='k get'
+alias kgp='kg pods'
+alias kl='k logs'
+
+kubectl config --help
+
+root@client:~# kubectl config get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin
+
+root@client:~# kubectl config set-context $(kubectl config current-context) --namespace=dev
+Context "kubernetes-admin@kubernetes" modified.
+
+root@client:~# kubectl config get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   dev
