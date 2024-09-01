@@ -1,0 +1,53 @@
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+
+ kg ns
+kg sa -n kubernetes-dashboard
+kg svc -n kubernetes-dashboard
+ k edit svc kubernetes-dashboard -n kubernetes-dashboard
+kg node -o wide
+kg po -n kubernetes-dashboard
+
+kubectl describe sa kubernetes-dashboard -n kubernetes-dashboard
+ kubectl describe secret  kubernetes-dashboard -n kubernetes-dashboard
+
+ kg clusterroles
+kc clusterrolebinding --help
+
+creating a token for Service ACCOUNT
+
+ k create token dashboard-admin --duration=999999h -n kubernetes-dashboard
+ k create token dashboard-admin -n kubernetes-dashboard
+
+after creating token for Service ACCOUNT, now you describe secret to get token
+
+root@client:~# kd sa dashboard-admin  -n kubernetes-dashboard
+Name:                dashboard-admin
+Namespace:           kubernetes-dashboard
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   <none>
+Tokens:              dashboard-admin
+Events:              <none>
+
+
+
+QUOTA creation 
+kcd test --image=nginx --replicas=2 -n test
+ kg quota pod-demo -n test
+k scale deploy/test --replicas=3 -n test
+kd deploy test -n test
+
+ kg quota -n test
+NAME           AGE   REQUEST                                     LIMIT
+mem-cpu-demo   9s    requests.cpu: 0/1, requests.memory: 0/1Gi   limits.cpu: 0/2, limits.memory: 0/2Gi
+
+kubectl create quota my-quota
+kubectl create quota my-quota --hard=cpu=1,memory=1G -n test
+ k delete quota my-quota -n test
+kg quota -n test
+ k delete quota mem-cpu-demo -n test
+
+creating ROLE to Service Account
+kc clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=kubernetes-dashboard:dashboard-admin
+ kg clusterrolebondings
