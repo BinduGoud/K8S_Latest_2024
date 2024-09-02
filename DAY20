@@ -3,13 +3,14 @@ day 19 and 20 includes -- schduling mechanisms
 day 20 -- ENV and Config Map .
 
 Creating env variables -- ??
+
 env related to APPLIcation , env- dev, prod , global env's -- if we inlude all these in spec file , there are atleast 10 pages. 
-so we can create env from config maps and ALL the values we can get inside pods
-So we can inject CM to PODS so that they can 
-be accessed by pods 
+so we can create env from config maps and ALL the values we can get inside pods.
+So we can inject CM to PODS so that they can be accessed by pods. 
 
 https://kubernetes.io/docs/tasks/inject-data-application/
 https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
+
 apiVersion: v1
 kind: Pod
 metadata:
@@ -34,16 +35,10 @@ k exec -it envar-demo bash
 env
 
 kcp podenv2 --image=nginx --dry-run -o yaml >podenv2.yaml
- k exec podenv2 env  -- it displays all pods
+ k exec podenv2 env  -- it displays all ENVS
 k exec podenv2 env | grep key  -- it displays env starting with Key
 
-kc cm --help
-ka cm1.yaml
- kg cm
-
-NAME               DATA   AGE
-kube-root-ca.crt   1      16d
-my-config          2      3s
+scenario 2---
 
 kubectl create configmap my-config --from-literal=key3=value3 --from-literal=key4=value4 --dry-run -o yaml > cm1.yaml
  kd cm my-config
@@ -76,4 +71,12 @@ spec:
     envFrom:
       - configMapRef:
            name: my-config
+
+kc cm --help
+ka cm1.yaml
+ kg cm
+
+NAME               DATA   AGE
+kube-root-ca.crt   1      16d
+my-config          2      3s
         
